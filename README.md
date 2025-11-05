@@ -169,6 +169,63 @@ docker-compose logs -f
 docker-compose down
 ```
 
+## 🗄️ Database
+
+### Setup
+
+The project uses PostgreSQL with Docker for easy setup:
+```bash
+# Start database
+docker-compose up -d
+
+# Stop database
+docker-compose down
+
+# View database logs
+docker-compose logs -f postgres
+```
+
+### Migrations
+
+Database schema is managed with Alembic:
+```bash
+# Create new migration
+alembic revision --autogenerate -m "description"
+
+# Apply migrations
+alembic upgrade head
+
+# Rollback one migration
+alembic downgrade -1
+
+# View migration history
+alembic history
+```
+
+### pgAdmin
+
+Access database management UI at http://localhost:5050
+
+- Email: admin@datapipeline.com
+- Password: admin123
+
+To connect to database in pgAdmin:
+1. Add new server
+2. Host: postgres (container name)
+3. Port: 5432
+4. Database: datapipeline_dev
+5. Username: postgres
+6. Password: (from your .env)
+
+### Database Testing
+```bash
+# Run database tests
+python -m app.db.test_db
+
+# Test via API
+curl http://localhost:8000/api/v1/database/health
+```
+
 ## 📈 Development Roadmap
 
 - [x] Phase 1: Project setup and FastAPI foundation
