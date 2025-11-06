@@ -226,6 +226,44 @@ python -m app.db.test_db
 curl http://localhost:8000/api/v1/database/health
 ```
 
+## 🔐 Authentication
+
+### User Registration
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "email": "user@example.com",
+    "username": "username",
+    "password": "SecurePass123"
+  }'
+```
+
+### User Login
+```bash
+curl -X POST http://localhost:8000/api/v1/auth/login \
+  -H "Content-Type: application/x-www-form-urlencoded" \
+  -d "username=user@example.com&password=SecurePass123"
+```
+
+Returns JWT tokens:
+- **Access Token**: Use for API requests (30 min expiry)
+- **Refresh Token**: Use to get new access tokens (7 days expiry)
+
+### Protected Endpoints
+
+Include token in Authorization header:
+```bash
+curl -H "Authorization: Bearer <access_token>" \
+     http://localhost:8000/api/v1/auth/me
+```
+
+### Interactive Testing
+
+Visit http://localhost:8000/docs and use the "Authorize" button.
+
+For detailed authentication documentation, see [docs/authentication.md](docs/authentication.md)
+
 ## 📈 Development Roadmap
 
 - [x] Phase 1: Project setup and FastAPI foundation
